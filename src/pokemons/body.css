@@ -1,5 +1,39 @@
 .main {
-    border: 1px solid black;
+    background-color: black;
     width: 1175px;
     margin: 0 auto;
+}
+.header {
+    padding: 125px 0px 0px 0px;
+}
+.header__topH2 {
+    margin: 0px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 49px;
+    color: #FFFFFF;
+}
+.header__botH1 {
+    margin: 0px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 130px;
+    line-height: 152px;
+    color: #FFFFFF;
+}
+.pokemonsgrid{
+    margin: 0px auto;
+    width: 770px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.pokemon {
+    width: 180px;
+    height: 180px;
+    background: #BA0606;
+    border-radius: 90px;
 }
