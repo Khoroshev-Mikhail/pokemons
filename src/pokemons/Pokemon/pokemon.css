@@ -1,0 +1,12 @@
+.pokemon {
+    width: 180px;
+    height: 180px;
+    background: #BA0606;
+    border-radius: 90px;
+    margin: 0px 0px 16px 0px;
+}
+.pokemon__img img{
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+}

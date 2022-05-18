@@ -29,11 +29,6 @@
     width: 770px;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: space-between;
-}
-.pokemon {
-    width: 180px;
-    height: 180px;
-    background: #BA0606;
-    border-radius: 90px;
 }
