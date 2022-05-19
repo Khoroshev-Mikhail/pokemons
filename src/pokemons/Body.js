@@ -88,7 +88,7 @@ const arr = [
 // Среда 17:00 или сб-вс в 11:00
 // https://ru.reactjs.org/docs/forms.html
 // https://sinyakov.com/frontend/react/hw/profi.png
-// Сделать не через style, обращаться напрямую к DOM элементы через React
+// Сделать не через style, нельзя использовать queryselector - обращаться напрямую к DOM элементы через React
 class Body extends React.Component{
     constructor(){
         super()
@@ -110,7 +110,6 @@ class Body extends React.Component{
     handlerForm(event){
       event.preventDefault()
       //Обратиться к ДОМ
-      console.log(event)
     }
 
     render(){
