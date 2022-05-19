@@ -107,12 +107,30 @@ class Body extends React.Component{
         })
     }
 
+    handlerForm(event){
+      event.preventDefault()
+      //Обратиться к ДОМ
+      console.log(event)
+    }
+
     render(){
         return <div className='main'>
             <header className='header'> 
                 <h2 className='header__topH2'>Поймано покемонов</h2>
                 <h1 className='header__botH1'>{`${this.state.idCatchingPokemons.length}/${arr.length}`}</h1>
             </header>
+
+            {/* ДЗ на воскресение */}
+            <div>
+              <form onSubmit={this.handlerForm}>
+                <label>
+                  <input type='text' value='ff00ff'></input>
+                </label>
+                <input type="submit" value="Отправить" />
+              </form>
+            </div>
+
+
             <div className='pokemonsgrid'>
               {arr.map(el => {
                   return <Pokemon 
