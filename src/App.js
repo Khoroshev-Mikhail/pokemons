@@ -6,14 +6,11 @@ class App extends React.Component {
   //Как указать state в функциональной компоненте?
   constructor(){
     super()
-    //Указать здесь реф и передать в Body
-    this.state = {
-      bg : 'none'
-    }
+    this.appRef = React.createRef()
   }
   render(){
-    return <div className="App" style={{background : this.state.bg}}>
-      <Body />
+    return <div className="App">
+      <Body appRef={this.appRef}/>
     </div>
   }
 }
