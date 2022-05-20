@@ -92,11 +92,9 @@ const arr = [
 class Body extends React.Component{
     constructor(){
         super()
-        this.myRef = React.createRef();
         this.state = {
             // count : 0
-            idCatchingPokemons : ["1", "2"],
-            bgcolor : '#ffffff'
+            idCatchingPokemons: ["1", "2"],
         }
     }
 
@@ -107,41 +105,12 @@ class Body extends React.Component{
         })
     }
 
-    handlerForm(event){
-      event.preventDefault()
-      const regexp = /^#[a-zA-Z]{6}$/
-      if(regexp.test(this.state.bgcolor)) {
-        //Обратиться к ДОМ
-        console.log(this.myRef.current.style.background = 'green')
-      } else{
-          alert('Введите правильный формат RGB (#11ff1f)')
-      }
-    }
-
-    handlerListener(event){
-      this.setState(({bgcolor}) => {
-        return { bgcolor : event.target.value}
-      })
-    }
-
     render(){
         return <div className='main'>
             <header className='header'> 
                 <h2 className='header__topH2'>Поймано покемонов</h2>
                 <h1 className='header__botH1'>{`${this.state.idCatchingPokemons.length}/${arr.length}`}</h1>
             </header>
-            <div style={{width: '200px', height: '300px', background: 'red'}} ref={this.myRef}></div>
-            {/* ДЗ на воскресение */}
-            <div>
-              <form onSubmit={this.handlerForm.bind(this)}>
-                <label>
-                  <input type='text' value={this.state.bgcolor} onChange={this.handlerListener.bind(this)}></input>
-                </label>
-                <input type="submit" value="Отправить" />
-              </form>
-            </div>
-
-
             <div className='pokemonsgrid'>
               {arr.map(el => {
                   return <Pokemon 
