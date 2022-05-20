@@ -94,14 +94,13 @@ class Body extends React.Component{
         super()
         this.state = {
             // count : 0
-            idCatchingPokemons : ["1", "2"]
+            idCatchingPokemons : ["1", "2"],
+            bgcolor : '#ffffff'
         }
     }
 
 
     changeCount(id){
-        console.log('body')
-        // this.setState((state) => ({count: bool ? (state.count + 1) : (state.count - 1)}))
         this.setState(({idCatchingPokemons}) => {
             return { idCatchingPokemons : idCatchingPokemons.includes(id) ? idCatchingPokemons.filter(el => el != id) : idCatchingPokemons.concat([id]) }
         })
@@ -109,7 +108,18 @@ class Body extends React.Component{
 
     handlerForm(event){
       event.preventDefault()
-      //Обратиться к ДОМ
+      const regexp = /^#[a-zA-Z]{6}$/
+      if(regexp.test(this.state.bgcolor)) {
+        //Обратиться к ДОМ
+      } else{
+          alert('Введите правильный формат RGB (#11ff1f)')
+      }
+    }
+
+    handlerListener(event){
+      this.setState(({bgcolor}) => {
+        return { bgcolor : event.target.value}
+      })
     }
 
     render(){
@@ -121,9 +131,9 @@ class Body extends React.Component{
 
             {/* ДЗ на воскресение */}
             <div>
-              <form onSubmit={this.handlerForm}>
+              <form onSubmit={this.handlerForm.bind(this)}>
                 <label>
-                  <input type='text' value='ff00ff'></input>
+                  <input type='text' value={this.state.bgcolor} onChange={this.handlerListener.bind(this)}></input>
                 </label>
                 <input type="submit" value="Отправить" />
               </form>
