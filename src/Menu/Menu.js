@@ -1,6 +1,6 @@
 import React from "react";
 import './menu.css'
-import MenuEl from "./MenuEl/MenuEl";
+import MenuList from "./MenuList/MenuList";
 
 
 const data = {
@@ -27995,7 +27995,7 @@ class Menu extends React.Component{
     }
     render(){
         return <div className="menu">
-            <MenuEl list={this.getTopPages(data)} data={data}/>
+            <MenuList list={this.getTopPages(data)} data={data}/>
         </div>
     }
 }
