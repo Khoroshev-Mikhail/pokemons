@@ -1,0 +1,15 @@
+.menu{
+    /*font-family: 'OpenSans';*/
+    width: 300px;
+    background-color: #FAFAFA;
+}
+.menu__list{
+    text-align: left;
+}
+.menu__list li{
+    list-style: none;
+    padding-left: 13px;
+}
+.menu__list__listWithArrow{
+    background: url('arrow.png') no-repeat 2px 10px;
+}
