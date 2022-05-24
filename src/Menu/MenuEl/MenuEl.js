@@ -1,26 +1,24 @@
 import React from "react";
 
 
-
-
 class MenuEl extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
     }
-    getPage(){
-
+    checkUnderEl(el, data){
+        let result = []
+        for(let page in data.entities.pages){
+            if(data.entities.pages[page].level == 0){
+                result.push(data.entities.pages[page])
+            }
+        }
+        return result
     }
     render(){
         return <ul className="menu__list">
-            <li>1</li>
-            <li>2</li>
-            <li className="menu__list__listWithArrow"> 3
-                <ul className="menu__list">
-                    <li>3-1</li>
-                    <li>3-2</li>
-                    <li>{this.props.id === 2 ? <MenuEl /> : 4}</li>
-                </ul>
-            </li>
+            {this.props.list.map(el => {
+                return <li>{el.title}</li>
+            })}
         </ul>
     }
 }

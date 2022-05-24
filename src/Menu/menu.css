@@ -1,6 +1,6 @@
 .menu{
     /*font-family: 'OpenSans';*/
-    width: 300px;
+    width: auto;
     background-color: #FAFAFA;
 }
 .menu__list{

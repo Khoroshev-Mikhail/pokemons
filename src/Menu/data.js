@@ -1,4 +1,4 @@
-const arr = {
+const data = {
     "entities":{
         "pages":{
             "top": {
