@@ -20,7 +20,7 @@ class Pokemon extends React.Component{
     render(){
         console.log("render", this);
         return <div className='pokemon' style={ { background: this.props.isCatching ? 'red' : 'green'}}>
-                    <div className='pokemon__name'>{this.props.name}</div>
+                    <div className='pokemon__name'>#{this.props.id} {this.props.name}</div>
                     <div className={'pokemon__img'}>
                         <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`}/>
                     </div>

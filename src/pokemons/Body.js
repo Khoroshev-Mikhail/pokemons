@@ -2,98 +2,20 @@ import React from 'react'
 import './body.css'
 import Pokemon from './Pokemon/Pokemon'
 import PokemonsCart from './PokemonsCart/PokemonsCart'
+import getPokemons from './Pokemon/pokemonAPI'
 
-const arr = [
-    {
-      name: "bulbasaur",
-      id: "1"
-    },
-    {
-      name: "ivysaur",
-      id: "2"
-    },
-    {
-      name: "venusaur",
-      id: "3"
-    },
-    {
-      name: "charmander",
-      id: "4"
-    },
-    {
-      name: "charmeleon",
-      id: "5"
-    },
-    {
-      name: "charizard",
-      id: "6"
-    },
-    {
-      name: "squirtle",
-      id: "7"
-    },
-    {
-      name: "wartortle",
-      id: "8"
-    },
-    {
-      name: "blastoise",
-      id: "9"
-    },
-    {
-      name: "caterpie",
-      id: "10"
-    },
-    {
-      name: "metapod",
-      id: "11"
-    },
-    {
-      name: "butterfree",
-      id: "12"
-    },
-    {
-      name: "weedle",
-      id: "13"
-    },
-    {
-      name: "kakuna",
-      id: "14"
-    },
-    {
-      name: "beedrill",
-      id: "15"
-    },
-    {
-      name: "pidgey",
-      id: "16"
-    },
-    {
-      name: "pidgeotto",
-      id: "17"
-    },
-    {
-      name: "pidgeot",
-      id: "18"
-    },
-    {
-      name: "rattata",
-      id: "19"
-    },
-    {
-      name: "raticate",
-      id: "20"
-    }
-  ]
-// Среда 17:00 или сб-вс в 11:00
-// https://ru.reactjs.org/docs/forms.html
-// https://sinyakov.com/frontend/react/hw/profi.png
-// Сделать не через style, нельзя использовать queryselector - обращаться напрямую к DOM элементы через React
+// https://pokeapi.co/api/v2/pokemon/
+
+//const POKEMONS_ON_PAGE = 12;
+
 class Body extends React.Component{
     constructor(){
         super()
         this.state = {
             // count : 0
+            currentPage: 2,
+            pokemonsOnPage: 12,
+            arr: [],
             idCatchingPokemons: ["1", "2"],
         }
     }
@@ -105,14 +27,47 @@ class Body extends React.Component{
         })
     }
 
+    componentDidMount() {
+      getPokemons(this.state.currentPage, this.state.pokemonsOnPage).then(results => {
+        return this.setState(() => {
+          return {arr : results}
+        })
+      })
+    }
+
+
+    componentDidUpdate(prevState, prevProps) {
+      if (this.state.currentPage !== prevState.currentPage) {
+        getPokemons(this.state.currentPage, this.state.pokemonsOnPage).then(results => {
+          return this.setState(() => {
+            return {arr : results}
+          })
+        })
+      }
+    }
+
+    goBack(){
+      this.setState(({currentPage}) => {
+        return {currentPage: currentPage - 1}
+      })
+    }
+    goForward(){
+      this.setState(({currentPage}) => {
+        return {currentPage: currentPage + 1}
+      })
+    }
     render(){
         return <div className='main'>
             <header className='header'> 
                 <h2 className='header__topH2'>Поймано покемонов</h2>
-                <h1 className='header__botH1'>{`${this.state.idCatchingPokemons.length}/${arr.length}`}</h1>
+                <h1 className='header__botH1'>{`${this.state.idCatchingPokemons.length}/${this.state.arr.length}`}</h1>
             </header>
+            <div>
+              <button onClick={this.goBack.bind(this)}>Назад</button>
+              <button onClick={this.goForward.bind(this)}>Вперед</button>
+            </div>
             <div className='pokemonsgrid'>
-              {arr.map(el => {
+              {this.state.arr.map(el => {
                   return <Pokemon 
                     name = {el.name} 
                     id ={el.id} 
