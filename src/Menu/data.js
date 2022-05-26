@@ -27973,9 +27973,5 @@ const data = {
 "feedback.mainpage"
 ]
 }
-function getLevel(obj){
-    for(let val in obj){
-        
-    }
-}
-export default arr
+
+export default data
