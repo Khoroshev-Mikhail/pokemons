@@ -31,7 +31,7 @@ class MenuList extends React.Component{
                 isLoaded : { ...isLoaded, [id] : false} //Выполняется каждый раз, даже если isLoaded[id] === false
             }))
         }
-        setTimeout(ara.bind(this), 500)
+        setTimeout(ara.bind(this), 300)
 
     }
     render(){
