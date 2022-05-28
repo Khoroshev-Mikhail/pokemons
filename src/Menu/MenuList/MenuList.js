@@ -25,7 +25,6 @@ class MenuList extends React.Component{
                 isLoaded: { ...isLoaded, [id] : true}
             }))
         }
-        console.log(this.state)
         function ara(){
             this.setState(({visibleLists, isLoaded}) => ({
                 visibleLists: { ...visibleLists, [id] : visibleLists[id] === undefined ? true : !visibleLists[id]},
