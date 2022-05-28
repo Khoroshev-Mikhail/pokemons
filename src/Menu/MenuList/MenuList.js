@@ -1,5 +1,16 @@
 import React, { useCallback, useContext } from "react";
+import { motion } from "framer-motion"
 
+
+const anim = {
+    hidden: { opacity: 0 },
+    show: { 
+        opacity: 1,
+        transition: {
+            duration: 1
+        }
+    }
+  }
 class MenuList extends React.Component{
     constructor(props){
         super(props)
@@ -48,7 +59,11 @@ class MenuList extends React.Component{
                                 <h3>LOADING!PLEASE WAIT!</h3>
                             </div> : ''
                         }
-                        {this.state.visibleLists[el.id] ? <MenuList list={underElements} data={this.props.data}/> : ''}
+                        {this.state.visibleLists[el.id] 
+                            ? <motion.div variants={anim} initial='hidden' animate='show'>
+                                <MenuList list={underElements} data={this.props.data}/>
+                            </motion.div> 
+                            : ''}
                     </li>
                 } else{
                     return <li>{el.title}</li>
