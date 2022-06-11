@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './body.css'
 import Pokemon from './Pokemon/Pokemon'
-//import PokemonsCart from './PokemonsCart/PokemonsCart'
 import getPokemons from './Pokemon/pokemonAPI'
-
-// https://pokeapi.co/api/v2/pokemon/
 
 const POKEMONS_ON_PAGE = 12;
 

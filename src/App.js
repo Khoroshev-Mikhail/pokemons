@@ -5,13 +5,11 @@ import Form from './Form/Form';
 import Menu from './Menu/Menu'
 
 class App extends React.Component {
-  //Как указать state в функциональной компоненте?
   constructor(){
     super()
   }
   render(){
     return <div className="App">
-      {/*<Body />*/}
       <Body />
     </div>
   }
