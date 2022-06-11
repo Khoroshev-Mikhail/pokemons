@@ -1,19 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './body.css'
 import Pokemon from './Pokemon/Pokemon'
-import PokemonsCart from './PokemonsCart/PokemonsCart'
+//import PokemonsCart from './PokemonsCart/PokemonsCart'
 import getPokemons from './Pokemon/pokemonAPI'
 
 // https://pokeapi.co/api/v2/pokemon/
 
-//const POKEMONS_ON_PAGE = 12;
+const POKEMONS_ON_PAGE = 12;
 
-class Body extends React.Component{
+export default function Body(props){
+  const [currentPage, setCurrentPage] = useState(1)
+  const [arr, setArr] = useState([])
+  const [idCatchingPokemons, setIdCatchingPokemons] = useState(['1', '2'])
+
+  function changeCount(id){
+    setIdCatchingPokemons(idCatchingPokemons.includes(id) ? idCatchingPokemons.filter(el => el !== id) : idCatchingPokemons.concat([id]))
+  }
+  function goBack(){
+    if(currentPage > 1){
+      setCurrentPage(currentPage - 1)
+    }
+  }
+  function goForward(){
+    setCurrentPage(currentPage + 1)
+  }
+  useEffect(()=>{
+    getPokemons(currentPage, POKEMONS_ON_PAGE).then(results => {
+      setArr(results)
+    })
+  })
+  return (
+    <div className='main'>
+      <header className='header'>
+          <h2 className='header__topH2'>Поймано покемонов</h2>
+          <h1 className='header__botH1'>{`${idCatchingPokemons.length}/${arr.length}`}</h1>
+      </header>
+      <div>
+        <h2 className='header__topH2'>Страница: {currentPage}</h2>
+        <button onClick={goBack}>Назад</button>
+        <button onClick={goForward}>Вперед</button>
+      </div>
+      <div className='pokemonsgrid'>
+        {arr.map(el => {
+            return <Pokemon 
+              name = {el.name} 
+              id ={el.id} 
+              changeCount={changeCount}
+              isCatching = {idCatchingPokemons.includes(el.id)}
+              />
+        })}
+      </div>
+    </div>
+  )
+}
+
+
+class Body2 extends React.Component{
     constructor(){
         super()
         this.state = {
             // count : 0
-            currentPage: 2,
+            currentPage: 1,
             pokemonsOnPage: 12,
             arr: [],
             idCatchingPokemons: ["1", "2"],
@@ -23,15 +70,13 @@ class Body extends React.Component{
 
     changeCount(id){
         this.setState(({idCatchingPokemons}) => {
-            return { idCatchingPokemons : idCatchingPokemons.includes(id) ? idCatchingPokemons.filter(el => el != id) : idCatchingPokemons.concat([id]) }
+            return { idCatchingPokemons : idCatchingPokemons.includes(id) ? idCatchingPokemons.filter(el => el !== id) : idCatchingPokemons.concat([id]) }
         })
     }
 
     componentDidMount() {
       getPokemons(this.state.currentPage, this.state.pokemonsOnPage).then(results => {
-        return this.setState(() => {
-          return {arr : results}
-        })
+        return this.setState({arr : results})
       })
     }
 
@@ -80,4 +125,3 @@ class Body extends React.Component{
         </div>
     }
 }
-export default Body
