@@ -5,7 +5,7 @@ import getPokemons from './Pokemon/pokemonAPI'
 
 const POKEMONS_ON_PAGE = 12;
 
-export default function Body(props){
+export default function Body(){
   const [currentPage, setCurrentPage] = useState(1)
   const [arr, setArr] = useState([])
   const [idCatchingPokemons, setIdCatchingPokemons] = useState(['1', '2'])
@@ -14,18 +14,16 @@ export default function Body(props){
     setIdCatchingPokemons(idCatchingPokemons.includes(id) ? idCatchingPokemons.filter(el => el !== id) : idCatchingPokemons.concat([id]))
   }
   function goBack(){
-    if(currentPage > 1){
-      setCurrentPage(currentPage - 1)
-    }
+    setCurrentPage(currentPage => currentPage - 1)
   }
   function goForward(){
-    setCurrentPage(currentPage + 1)
+    setCurrentPage(currentPage => currentPage + 1)
   }
   useEffect(()=>{
     getPokemons(currentPage, POKEMONS_ON_PAGE).then(results => {
       setArr(results)
     })
-  })
+  }, [currentPage])
   return (
     <div className='main'>
       <header className='header'>
@@ -34,7 +32,7 @@ export default function Body(props){
       </header>
       <div>
         <h2 className='header__topH2'>Страница: {currentPage}</h2>
-        <button onClick={goBack}>Назад</button>
+        <button disabled={currentPage === 1} onClick={goBack}>Назад</button>
         <button onClick={goForward}>Вперед</button>
       </div>
       <div className='pokemonsgrid'>
