@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css';
-import Body from './pokemons/Body'
-import Form from './Form/Form';
-import Menu from './Menu/Menu'
+import Body_Wrapper from './pokemons/Body_Wrapper';
 
 class App extends React.Component {
   constructor(){
@@ -10,7 +8,7 @@ class App extends React.Component {
   }
   render(){
     return <div className="App">
-      <Body />
+      <Body_Wrapper />
     </div>
   }
 }
