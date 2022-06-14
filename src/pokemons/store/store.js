@@ -60,14 +60,13 @@ function currentPageReducer(state = initialState.currentPage, action){
     return state
 }
 
-//Expected the root reducer to be a function.
+//My combineReducers
 function combineReducers2(obj){
     return function(state = initialState, action){
-        let newState = {...state}
+        let newState = {...state} //Нужно глубокое клонирование?
         for(const key in obj){
             newState = {...newState, [key]: obj[key](state[key], action)}
         }
-        console.log(newState)
         return newState
     }
 }
