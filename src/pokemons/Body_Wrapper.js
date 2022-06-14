@@ -1,17 +1,7 @@
 import { connect } from "react-redux";
+import { mapDispatchToProps, mapStateToProps } from "./store/store";
 import Body from "./Body";
-import { bindActionCreators } from "redux";
 
-export default function Body_Wrapper(){
-    return(
-        <Body />
-    )
-}
 
-function mapStateToProps(state){
-    return function(state){
-        return {
-            
-        }
-    }
-}
+const Body_Wrapper = connect(mapStateToProps(), mapDispatchToProps())(Body)
+export default Body_Wrapper
