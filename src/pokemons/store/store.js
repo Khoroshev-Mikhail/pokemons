@@ -14,11 +14,7 @@ const NEXT_PAGE = 'NEXT_PAGE'
 const PREV_PAGE = 'PREV_PAGE'
 
 //Action creators
-function nextPage_AC(){
-    return {
-        type: NEXT_PAGE
-    }
-}
+const nextPage_AC = () => ({type: NEXT_PAGE})
 function prevPage_AC(){
     return {
         type: PREV_PAGE
