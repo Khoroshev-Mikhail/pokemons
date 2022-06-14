@@ -60,6 +60,12 @@ function currentPageReducer(state = initialState.currentPage, action){
     return state
 }
 
+function combineReducers2(obj){
+    for(let key in obj){
+        
+    }
+}
+
 const reducer = combineReducers({
     pokemonsOnPage: getPokemonsForPageReducer,
     idCatchingPokemons: catchOrReleaseReducer,
