@@ -60,18 +60,23 @@ function currentPageReducer(state = initialState.currentPage, action){
     return state
 }
 
+//Expected the root reducer to be a function.
 function combineReducers2(obj){
-    for(let key in obj){
-        
+    return function(state = initialState, action){
+        let newState = {...state}
+        for(const key in obj){
+            newState = {...newState, [key]: obj[key](state[key], action)}
+        }
+        console.log(newState)
+        return newState
     }
 }
 
-const reducer = combineReducers({
+const reducer = combineReducers2({
     pokemonsOnPage: getPokemonsForPageReducer,
     idCatchingPokemons: catchOrReleaseReducer,
     currentPage: currentPageReducer,
 })
-
 export function mapStateToProps(){
     return function(state){
         return {
@@ -95,8 +100,8 @@ export function mapDispatchToProps(){
 
 const store = legacy_createStore(reducer);
 export default store
-/*store.dispatch( {type: CATCH, id: 5})
-console.log(store.getState());*/
+//store.dispatch( {type: CATCH, id: 5})
+//console.log(store.getState());
 
 // combineReducers написать свою реализацию
 // подключить redux (connect или хуки)
