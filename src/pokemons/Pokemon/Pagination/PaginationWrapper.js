@@ -8,11 +8,15 @@ function mapStateToProps(state){
     }
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        nextPage: bindActionCreators(nextPage_AC, dispatch),
-        prevPage: bindActionCreators(prevPage_AC, dispatch)
-    }
+// function mapDispatchToProps(dispatch){
+//     return {
+//         nextPage: bindActionCreators(nextPage_AC, dispatch),
+//         prevPage: bindActionCreators(prevPage_AC, dispatch)
+//     }
+// }
+const mapDispatchToProps = {
+    nextPage: nextPage_AC,
+    prevPage: prevPage_AC,
 }
 
 const PaginationWrapper = connect(mapStateToProps, mapDispatchToProps)(Pagination)
