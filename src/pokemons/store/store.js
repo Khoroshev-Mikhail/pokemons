@@ -1,4 +1,6 @@
-const { legacy_createStore, combineReducers, bindActionCreators } = require("redux")
+const { legacy_createStore, combineReducers } = require("redux")
+
+//MiddleWare & Thunks
 
 //InitialState
 const initialState = {
@@ -14,19 +16,19 @@ const NEXT_PAGE = 'NEXT_PAGE'
 const PREV_PAGE = 'PREV_PAGE'
 
 //Action creators
-const nextPage_AC = () => ({type: NEXT_PAGE})
-function prevPage_AC(){
+export const nextPage_AC = () => ({type: NEXT_PAGE})
+export function prevPage_AC(){
     return {
         type: PREV_PAGE
     }
 }
-function getPokemonsForPage_AC(arrFromAPI){
+export function getPokemonsForPage_AC(arrFromAPI){
     return {
         type: ADD,
         arrFromAPI: arrFromAPI
     }
 }
-function catchOrRelease_AC(id){
+export function catchOrRelease_AC(id){
     return {
         type: CATCH,
         id: id
@@ -62,10 +64,10 @@ function currentPageReducer(state = initialState.currentPage, action){
 
 //My combineReducers
 function combineReducers2(obj){
-    return function(state = initialState, action){
-        let newState = {...state} //Нужно глубокое клонирование?
+    return function(state = {}, action){
+        const newState = {} 
         for(const key in obj){
-            newState = {...newState, [key]: obj[key](state[key], action)}
+            newState[key] = obj[key](state[key], action)
         }
         return newState
     }
@@ -76,26 +78,7 @@ const reducer = combineReducers2({
     idCatchingPokemons: catchOrReleaseReducer,
     currentPage: currentPageReducer,
 })
-export function mapStateToProps(){
-    return function(state){
-        return {
-            pokemonsOnPage: state.pokemonsOnPage,
-            idCatchingPokemons: state.idCatchingPokemons,
-            currentPage: state.currentPage,
-        }
-    }
-}
 
-export function mapDispatchToProps(){
-    return function(dispatch){
-        return {
-            getPokemonsForPage: bindActionCreators(getPokemonsForPage_AC, dispatch),
-            catchOrRelease: bindActionCreators(catchOrRelease_AC, dispatch),
-            nextPage: bindActionCreators(nextPage_AC, dispatch),
-            prevPage: bindActionCreators(prevPage_AC, dispatch),
-        }
-    }
-}
 
 const store = legacy_createStore(reducer);
 export default store
