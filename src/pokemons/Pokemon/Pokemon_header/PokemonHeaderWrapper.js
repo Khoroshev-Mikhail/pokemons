@@ -1,5 +1,5 @@
-//ЭТА КОМПОНЕНТА НЕ ИСПОЛЬЗУЕТСЯ
-//В Body.js подключается PokemonHeader и используются хуки вместо connect
+//ДАННАЯ КОМПОНЕНТА НЕ ИСПОЛЬЗУЕТСЯ!!!
+//В Body.js подключается PokemonHeader (а это WRAPPER) и используются хуки вместо connect
 
 import { connect } from "react-redux";
 import { totalCountOfPokemons_AC } from "../../store/store";
