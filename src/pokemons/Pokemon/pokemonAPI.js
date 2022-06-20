@@ -12,4 +12,12 @@ function getPokemons(page, pokemonsOnPage){
 }
 export default getPokemons;
 
-// getPokemons().then(arr => console.log(arr)); // [{...}, {...}, ...]
+export function getTotalCount(){
+    return fetch(`https://pokeapi.co/api/v2/pokemon/?offset=1&limit=12`)
+        .then(response => {
+            return response.json()
+        })
+        .then(response => {
+            return response.count
+        })
+}

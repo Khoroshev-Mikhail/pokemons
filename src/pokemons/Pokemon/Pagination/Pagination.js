@@ -3,6 +3,7 @@ import { nextPage_AC, prevPage_AC } from "../../store/store";
 
 
 export default function Pagination(props){
+    //Вариант 3
     const dispatch = useDispatch()
 
     function prevPage() {

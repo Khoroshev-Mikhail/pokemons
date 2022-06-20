@@ -4,6 +4,7 @@ import PaginationWrapper from './Pokemon/Pagination/PaginationWrapper';
 import getPokemons from './Pokemon/pokemonAPI'
 import PokemonHeader from './Pokemon/Pokemon_header/PokemonHeader';
 import PokemonWrapper from './Pokemon/PokemonsPage/PokemonWrapper';
+import PokemonHeaderWrapper from './Pokemon/Pokemon_header/PokemonHeaderWrapper';
 
 
 const POKEMONS_ON_PAGE = 12;

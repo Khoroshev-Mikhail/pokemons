@@ -6,7 +6,8 @@ const { legacy_createStore, combineReducers } = require("redux")
 const initialState = {
     currentPage: 1,
     idCatchingPokemons: ['1'],
-    pokemonsOnPage: []
+    pokemonsOnPage: [],
+    totalCountOfPokemons: 100,
 }
 
 //Actions
@@ -14,6 +15,7 @@ const ADD = 'ADD'
 const CATCH = 'CATCH'
 const NEXT_PAGE = 'NEXT_PAGE'
 const PREV_PAGE = 'PREV_PAGE'
+const TOTAL_COUNT_OF_POKEMONS = 'TOTAL_COUNT_OF_POKEMONS'
 
 //Action creators
 export const nextPage_AC = () => ({type: NEXT_PAGE})
@@ -34,6 +36,7 @@ export function catchOrRelease_AC(id){
         id: id
     }
 }
+export const totalCountOfPokemons_AC = (count) => ({type: TOTAL_COUNT_OF_POKEMONS, count: count})
 
 //Reducers
 function getPokemonsForPageReducer(state = initialState.pokemonsOnPage, action) {
@@ -61,6 +64,12 @@ function currentPageReducer(state = initialState.currentPage, action){
     }
     return state
 }
+function totalCountOfPokemonsReducer(state = initialState.totalCountOfPokemons, action){
+    if(action.type === TOTAL_COUNT_OF_POKEMONS){
+        return action.count
+    }
+    return state
+}
 
 //My combineReducers
 function combineReducers2(obj){
@@ -77,6 +86,7 @@ const reducer = combineReducers2({
     pokemonsOnPage: getPokemonsForPageReducer,
     idCatchingPokemons: catchOrReleaseReducer,
     currentPage: currentPageReducer,
+    totalCountOfPokemons : totalCountOfPokemonsReducer,
 })
 
 
