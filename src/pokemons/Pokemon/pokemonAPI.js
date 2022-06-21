@@ -1,9 +1,12 @@
 import axios from 'axios'
 
+const instance = axios.create({
+    baseURL: 'https://pokeapi.co/api/v2/pokemon/'
+})
 function getPokemons(page, pokemonsOnPage){
-    return fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${(page - 1) * pokemonsOnPage}&limit=${pokemonsOnPage}`)
+    return instance.get(`?offset=${(page - 1) * pokemonsOnPage}&limit=${pokemonsOnPage}`)
         .then(response => {
-            return response.json()
+            return response.data
         })
         .then(el => {
             return el.results.map(pokemon => {
@@ -14,11 +17,8 @@ function getPokemons(page, pokemonsOnPage){
 export default getPokemons;
 
 export function getTotalCount(){
-    return fetch(`https://pokeapi.co/api/v2/pokemon/?offset=1&limit=12`)
+    return instance.get()
         .then(response => {
-            return response.json()
-        })
-        .then(response => {
-            return response.count
+            return response.data.count
         })
 }

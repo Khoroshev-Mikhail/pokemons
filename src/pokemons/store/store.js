@@ -1,4 +1,5 @@
-const { legacy_createStore, combineReducers } = require("redux")
+import thunk from 'redux-thunk'
+const { legacy_createStore, combineReducers, applyMiddleware } = require("redux")
 
 //MiddleWare & Thunks
 
@@ -90,7 +91,7 @@ const reducer = combineReducers2({
 })
 
 
-const store = legacy_createStore(reducer);
+const store = legacy_createStore(reducer, applyMiddleware(thunk));
 export default store
 //store.dispatch( {type: CATCH, id: 5})
 //console.log(store.getState());
