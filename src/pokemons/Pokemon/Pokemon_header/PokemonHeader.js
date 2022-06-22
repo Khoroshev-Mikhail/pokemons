@@ -5,17 +5,22 @@ import { getTotalCount } from "../pokemonAPI";
 
 //https://habr.com/ru/post/483314/
 
-export default function PokemonHeader(){
-    const dispatch = useDispatch()
-    const countCatchingPokemons = useSelector(state => state.idCatchingPokemons.length);
-    const totalCountOfPokemons = useSelector(state => state.totalCountOfPokemons);
-    const add = () => {
+export function loadCount() {
+    return function(dispatch) {
         getTotalCount().then(response => {
             dispatch(totalCountOfPokemons_AC(response))
         })
     }
+}
+
+export default function PokemonHeader(){
+    const dispatch = useDispatch()
+    const countCatchingPokemons = useSelector(state => state.idCatchingPokemons.length);
+    const totalCountOfPokemons = useSelector(state => state.totalCountOfPokemons);
+
     function countToState(){
-        dispatch(add)
+        dispatch(loadCount())
+        // loadCount()(dispatch)
     }
 
     //Можно ли переписать чтобы не использовать store? т.е. результат гет запроса ложить в константу внутри компоненты и её уже рендерить?

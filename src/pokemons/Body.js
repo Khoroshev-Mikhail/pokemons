@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import './body.css'
 import PaginationWrapper from './Pokemon/Pagination/PaginationWrapper';
 import getPokemons from './Pokemon/pokemonAPI'
 import PokemonHeader from './Pokemon/Pokemon_header/PokemonHeader';
 import PokemonWrapper from './Pokemon/PokemonsPage/PokemonWrapper';
+import { loadPage } from './store/store';
 //import PokemonHeaderWrapper from './Pokemon/Pokemon_header/PokemonHeaderWrapper';
 
 
-const POKEMONS_ON_PAGE = 12;
-
 export default function Body(props){
 
+  const dispatch = useDispatch()
   useEffect(()=>{
-    getPokemons(props.currentPage, POKEMONS_ON_PAGE).then(results => {
-      props.getPokemonsForPage(results)
-    })
-  }, [props.currentPage])
+    dispatch(loadPage())
+  }, [])
+
   return (
     <div className='main'>
       

@@ -1,5 +1,7 @@
-import thunk from 'redux-thunk'
+// import thunk from 'redux-thunk'
+import getPokemons from "../Pokemon/pokemonAPI"
 const { legacy_createStore, combineReducers, applyMiddleware } = require("redux")
+
 
 //MiddleWare & Thunks
 
@@ -91,7 +93,63 @@ const reducer = combineReducers2({
 })
 
 
-const store = legacy_createStore(reducer, applyMiddleware(thunk));
+const POKEMONS_ON_PAGE = 12;
+//Thunks
+export function loadPage(){
+    return function (dispatch, getState){
+      const {currentPage} = getState()
+      getPokemons(currentPage, POKEMONS_ON_PAGE).then(results => {
+        dispatch(getPokemonsForPage_AC(results))
+      })
+    }
+  }
+
+const m1 = storeApi => next => action => {
+    // console.log("m1 storeApi", storeApi)
+    // console.log("m1 next",  next)
+    // console.log("m1 action", action)
+    return next(action);
+}
+
+/*
+m1 next – action => { (bundle.js, line 1072)
+  // console.log("m2")
+  return next(action);
+}
+*/
+const m2 = storeApi => next => action => {
+    // console.log("m2 next", next)
+    return next(action);
+}
+
+const thunk = storeApi => next => action => {
+    console.log("thunk", action)
+    if(typeof action === "function") {
+        return action(storeApi.dispatch, storeApi.getState);
+    }
+    return next(action);
+}
+
+const listenerMiddlewareFactory = ({
+    actionTypes,
+    callback,
+}) => storeApi => next => action => {
+    const result = next(action);
+
+    if (actionTypes.includes(action.type)) {
+        return callback(storeApi.dispatch, storeApi.getState);
+    }
+
+    return result;
+};
+
+const changePageMiddleware = listenerMiddlewareFactory({
+    actionTypes: [NEXT_PAGE, PREV_PAGE],
+    callback: (dispatch) => dispatch(loadPage()),
+})
+
+
+const store = legacy_createStore(reducer, applyMiddleware(thunk, changePageMiddleware));
 export default store
 //store.dispatch( {type: CATCH, id: 5})
 //console.log(store.getState());
