@@ -1,13 +1,3 @@
-function mineCreateStore(reducer){
-    let state = reducer({}, {})
-    return {
-        getState: () => state,
-        dispatch: (action) => {
-            state = reducer(state, action)
-        },
-        subscribe: () => {} 
-    }
-}
 const initialState = {
     ara: 0,
     bara: 1000
@@ -42,29 +32,38 @@ const reducers = combineReducers({
     bara: r2
 })
 
+function mineCreateStore(reducer){
+    let state = reducer({}, {})
+    let subscribes = []
+    return {
+        getState: () => state,
+        dispatch: (action) => {
+            state = reducer(state, action)
+            subscribes.forEach(fn => fn(state))
+        },
+        //subscribes: [1,2],
+        subscribe: (fn) => {
+            subscribes = [...subscribes, fn]
+            return () => {
+                subscribes = subscribes.fill(fn => fn !== fn)
+            }
+        }
+    }
+}
+
 
 
 const store = mineCreateStore(reducers)
-store.dispatch({type: "INC"})
+//store.dispatch({type: "INC"})
+const unsubscribe1 = store.subscribe((value) => {
+    console.log(value)
+  })
 store.dispatch({type: "SEC"})
-console.log(store.getState())
-/*
-const { createStore } = require("redux");
-const store = createStore(r, 0);
-const unsubscribe1 = store.subscribe(() => {
-  console.log("subscribe1")
-})
-console.log("dispatch");
-store.dispatch({ type: "INC" }) // subscribe1
-const unsubscribe2 = store.subscribe(() => {
-  console.log("subscribe2")
-})
-console.log("dispatch");
-store.dispatch({ type: "INC" }) // subscribe1 subscribe2
-unsubscribe1();
-console.log("dispatch");
-store.dispatch({ type: "INC" }) // subscribe2
-*/
+store.dispatch({type: "SEC"})
+store.dispatch({type: "SEC"})
+unsubscribe1()
+store.dispatch({type: "SEC"})
+
 
 //Реализовать subscribe()
 //Разобраться с миддлваре
