@@ -104,10 +104,10 @@ export function loadPage(){
     }
   }
 
-const m1 = storeApi => next => action => {
-    // console.log("m1 storeApi", storeApi)
-    // console.log("m1 next",  next)
-    // console.log("m1 action", action)
+const m1 = store => next => action => {
+    console.log("m1 storeApi", store)
+    console.log("m1 next!!!",  next)
+    console.log("m1 action", action)
     return next(action);
 }
 
@@ -118,12 +118,16 @@ m1 next – action => { (bundle.js, line 1072)
 }
 */
 const m2 = storeApi => next => action => {
-    // console.log("m2 next", next)
+    console.log("m2 storeAPI", storeApi)
+    console.log("m2 next!!!", next)
+    console.log("m2 action", action)
     return next(action);
 }
 
 const thunk = storeApi => next => action => {
-    console.log("thunk", action)
+    console.log("storeApi:::", storeApi)
+    console.log("next:::", next)
+    console.log("action-thunk:::", action)
     if(typeof action === "function") {
         return action(storeApi.dispatch, storeApi.getState);
     }
@@ -149,7 +153,7 @@ const changePageMiddleware = listenerMiddlewareFactory({
 })
 
 
-const store = legacy_createStore(reducer, applyMiddleware(thunk, changePageMiddleware));
+const store = legacy_createStore(reducer, applyMiddleware(thunk));
 export default store
 //store.dispatch( {type: CATCH, id: 5})
 //console.log(store.getState());

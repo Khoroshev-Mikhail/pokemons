@@ -33,7 +33,7 @@ const reducers = combineReducers({
 })
 
 function mineCreateStore(reducer){
-    let state = reducer({}, {})
+    let state = reducer({}, {}) //Верно?
     let subscribes = []
     return {
         getState: () => state,
@@ -41,7 +41,6 @@ function mineCreateStore(reducer){
             state = reducer(state, action)
             subscribes.forEach(fn => fn(state))
         },
-        //subscribes: [1,2],
         subscribe: (fn) => {
             subscribes = [...subscribes, fn]
             return () => {
@@ -54,7 +53,6 @@ function mineCreateStore(reducer){
 
 
 const store = mineCreateStore(reducers)
-//store.dispatch({type: "INC"})
 const unsubscribe1 = store.subscribe((value) => {
     console.log(value)
   })
