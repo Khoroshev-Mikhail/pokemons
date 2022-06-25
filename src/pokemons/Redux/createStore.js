@@ -53,16 +53,38 @@ function mineCreateStore(reducer){
 
 
 const store = mineCreateStore(reducers)
-const unsubscribe1 = store.subscribe((value) => {
+/*const unsubscribe1 = store.subscribe((value) => {
     console.log(value)
-  })
-store.dispatch({type: "SEC"})
-store.dispatch({type: "SEC"})
-store.dispatch({type: "SEC"})
-unsubscribe1()
-store.dispatch({type: "SEC"})
+  })*/
+//store.dispatch({type: "SEC"})
+//console.log(store.getState())
 
+//unsubscribe1()
 
+const logger = (store) => next => action =>{
+    console.log('dispatching')
+    let result = next(action)
+    console.log('next state', store.getState())
+    return result
+}
+const logger2 = (store) => next => action =>{
+    console.log('dispatching222')
+    let result = next(action)
+    console.log('next state222', store.getState())
+    return result
+}
+//logger(store)({type: "SEC"})
+function applyMiddleware(store, midlewares){
+    midlewares = midlewares.slice()
+    midlewares.reverse()
+    let dispatch = store.dispatch
+    midlewares.forEach(fn => {
+        dispatch = fn(store)(dispatch)
+    })
+    return Object.assign({}, store, {dispatch})
+}
+ara = applyMiddleware(store, [ logger, logger2 ])
+ara.dispatch({type: "SEC"})
 //Реализовать subscribe()
 //Разобраться с миддлваре
 //Редакс тулкит
