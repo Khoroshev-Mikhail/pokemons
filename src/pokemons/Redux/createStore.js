@@ -32,10 +32,10 @@ const reducers = combineReducers({
     bara: r2
 })
 
-function mineCreateStore(reducer){
-    let state = reducer({}, {}) //Верно?
+function mineCreateStore(reducer, middleware){
+    let state = reducer({}, {})
     let subscribes = []
-    return {
+    let store = {
         getState: () => state,
         dispatch: (action) => {
             state = reducer(state, action)
@@ -48,6 +48,7 @@ function mineCreateStore(reducer){
             }
         }
     }
+    return store
 }
 
 
@@ -62,29 +63,34 @@ const store = mineCreateStore(reducers)
 //unsubscribe1()
 
 const logger = (store) => next => action =>{
-    console.log('dispatching')
+    console.log('logger(1) Action:', action)
+    console.log('logger(1) State:', store.getState())
     let result = next(action)
-    console.log('next state', store.getState())
+    console.log('logger(1) Result:', store.getState())
     return result
 }
 const logger2 = (store) => next => action =>{
-    console.log('dispatching222')
+    console.log('logger(2) Action:', action)
+    console.log('logger(2) State:', store.getState())
     let result = next(action)
-    console.log('next state222', store.getState())
+    console.log('logger(2) Result:', store.getState())
     return result
 }
-//logger(store)({type: "SEC"})
 function applyMiddleware(store, midlewares){
-    midlewares = midlewares.slice()
-    midlewares.reverse()
+    midlewares = midlewares.reverse()
     let dispatch = store.dispatch
     midlewares.forEach(fn => {
         dispatch = fn(store)(dispatch)
     })
-    return Object.assign({}, store, {dispatch})
+    return {...store, dispatch}
 }
 ara = applyMiddleware(store, [ logger, logger2 ])
 ara.dispatch({type: "SEC"})
+
+
+//Как написать в формате const store = mineCreateStore(reducers, applyMiddleware(logger1, logger2)) ??????????????????????????
+//Точнее как передать в applyMiddleware - store первым параметром?
+
 //Реализовать subscribe()
 //Разобраться с миддлваре
 //Редакс тулкит

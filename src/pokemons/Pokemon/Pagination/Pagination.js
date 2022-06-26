@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { nextPage_AC, prevPage_AC } from "../../store/store";
+import { nextPage_AC, prevPage_AC } from "../../store/toolkitStore";
 
 
 export default function Pagination(props){

@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import Pagination from "./Pagination";
-import { bindActionCreators } from "redux";
-import { nextPage_AC, prevPage_AC } from "../../store/store";
+import { nextPage_AC, prevPage_AC } from "../../store/toolkitStore";
 function mapStateToProps(state){
     return {
         currentPage: state.currentPage

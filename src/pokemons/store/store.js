@@ -1,16 +1,14 @@
 // import thunk from 'redux-thunk'
-import getPokemons from "../Pokemon/pokemonAPI"
-const { legacy_createStore, combineReducers, applyMiddleware } = require("redux")
+import getPokemons, { getTotalCount } from "../Pokemon/pokemonAPI"
+const { legacy_createStore, applyMiddleware } = require("redux")
 
-
-//MiddleWare & Thunks
 
 //InitialState
 const initialState = {
     currentPage: 1,
     idCatchingPokemons: ['1'],
     pokemonsOnPage: [],
-    totalCountOfPokemons: 100,
+    totalCountOfPokemons: 0,
 }
 
 //Actions
@@ -97,43 +95,51 @@ const POKEMONS_ON_PAGE = 12;
 //Thunks
 export function loadPage(){
     return function (dispatch, getState){
-      const {currentPage} = getState()
-      getPokemons(currentPage, POKEMONS_ON_PAGE).then(results => {
-        dispatch(getPokemonsForPage_AC(results))
-      })
+        const {currentPage} = getState()
+        getPokemons(currentPage, POKEMONS_ON_PAGE)
+            .then(results => {
+                dispatch(getPokemonsForPage_AC(results))
+            })
     }
-  }
-
+}
+export function getTotalCountThunk(){
+    return function(dispatch){
+        getTotalCount()
+            .then(result => {
+                dispatch(totalCountOfPokemons_AC(result))
+            })
+    }
+}
+/*
 const m1 = store => next => action => {
     console.log("m1 storeApi", store)
     console.log("m1 next!!!",  next)
     console.log("m1 action", action)
     return next(action);
 }
-
-/*
-m1 next – action => { (bundle.js, line 1072)
-  // console.log("m2")
-  return next(action);
-}
-*/
 const m2 = storeApi => next => action => {
     console.log("m2 storeAPI", storeApi)
     console.log("m2 next!!!", next)
     console.log("m2 action", action)
     return next(action);
 }
+*/
 
+
+//Middlewares
 const thunk = storeApi => next => action => {
+    /*
     console.log("storeApi:::", storeApi)
     console.log("next:::", next)
     console.log("action-thunk:::", action)
+    */
     if(typeof action === "function") {
         return action(storeApi.dispatch, storeApi.getState);
     }
     return next(action);
 }
 
+//Для пагинации
 const listenerMiddlewareFactory = ({
     actionTypes,
     callback,
@@ -146,19 +152,26 @@ const listenerMiddlewareFactory = ({
 
     return result;
 };
-
+const myMiddleware = storeApi => next => action => {
+    const callback = (dispatch) => dispatch(loadPage())
+    const result = next(action)   
+    if(action.type === NEXT_PAGE || action.type === PREV_PAGE){ 
+        return callback(storeApi.dispatch, storeApi.getState)
+    }
+    return result
+}
+const esheMiddleware = (store) => next => action => {
+    const result = next(action)
+    if(action.type === CATCH && store.getState().idCatchingPokemons.includes(action.id)){
+        console.log(action.type, action.id)
+    }
+    return result
+}
 const changePageMiddleware = listenerMiddlewareFactory({
     actionTypes: [NEXT_PAGE, PREV_PAGE],
     callback: (dispatch) => dispatch(loadPage()),
 })
 
-
-const store = legacy_createStore(reducer, applyMiddleware(thunk));
+//Store
+const store = legacy_createStore(reducer, applyMiddleware(thunk, myMiddleware, esheMiddleware));
 export default store
-//store.dispatch( {type: CATCH, id: 5})
-//console.log(store.getState());
-
-// combineReducers написать свою реализацию
-// подключить redux (connect или хуки)
-// компоненты высшего порядка
-// Среда 17:30

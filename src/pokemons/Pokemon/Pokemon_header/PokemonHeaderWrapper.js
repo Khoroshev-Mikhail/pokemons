@@ -2,7 +2,7 @@
 //В Body.js подключается PokemonHeader (а это WRAPPER) и используются хуки вместо connect
 
 import { connect } from "react-redux";
-import { totalCountOfPokemons_AC } from "../../store/store";
+import { totalCountOfPokemons_AC } from "../../store/toolkitStore";
 import PokemonHeader from "./PokemonHeader";
 
 function mapStateToProps(state){
