@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Pagination from "./Pagination";
-import { nextPage_AC, prevPage_AC } from "../../store/toolkitStore";
+import { nextPage, prevPage } from "../../store/toolkitStore";
 function mapStateToProps(state){
     return {
         currentPage: state.currentPage
@@ -18,8 +18,8 @@ function mapStateToProps(state){
 
 // Вариант 2
 const mapDispatchToProps = {
-    nextPage: nextPage_AC,
-    prevPage: prevPage_AC,
+    nextPage: nextPage,
+    prevPage: prevPage,
 }
 
 const PaginationWrapper = connect(mapStateToProps, /*mapDispatchToProps*/)(Pagination)

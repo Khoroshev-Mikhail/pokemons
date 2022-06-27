@@ -4,7 +4,6 @@ import './body.css'
 import PaginationWrapper from './Pokemon/Pagination/PaginationWrapper';
 import PokemonHeader from './Pokemon/Pokemon_header/PokemonHeader';
 import PokemonWrapper from './Pokemon/PokemonsPage/PokemonWrapper';
-//import { loadPage } from './store/store';
 import { loadPage } from './store/toolkitStore';
 //import PokemonHeaderWrapper from './Pokemon/Pokemon_header/PokemonHeaderWrapper';
 
