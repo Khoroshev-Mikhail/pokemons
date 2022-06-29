@@ -28,6 +28,8 @@ const currentPageSlicer = createSlice({
 export const currentPageReducer = currentPageSlicer.reducer
 export const {nextPage, prevPage} = currentPageSlicer.actions
 
+console.log(">>>>", nextPage.toString());
+
 const getPokemonsForPageReducer = createReducer(initialState.pokemonsOnPage, (builder) => {
     builder
         .addCase(getPokemonsForPage_AC, (state, action) => {
@@ -48,7 +50,13 @@ const catchOrReleaseReducer = createReducer(initialState.idCatchingPokemons, (bu
 
 const totalCountOfPokemonsReducer = createReducer(initialState.totalCountOfPokemons, (builder) => {
     builder
-        .addCase(totalCountOfPokemons_AC, (state, action) => {
+        .addCase(getTotalCountThunkToolkit.fulfilled, (state, action) => {
+            return action.payload.count
+        })
+        .addCase(getTotalCountThunkToolkit.fulfilled, (state, action) => {
+            return action.payload.count
+        })
+        .addCase(getTotalCountThunkToolkit.fulfilled, (state, action) => {
             return action.payload.count
         })
 })
@@ -64,6 +72,7 @@ export function loadPage(){
             })
     }
 }
+/*
 export function getTotalCountThunk(){
     return function(dispatch){
         getTotalCount()
@@ -72,6 +81,41 @@ export function getTotalCountThunk(){
             })
     }
 }
+*/
+export const getTotalCountThunkToolkit = createAsyncThunk(
+    'getTotalCountThunkToolkit',
+    () => getTotalCount().then(r => r.data)
+  )
+
+//   getTotalCountThunkToolkit(123)
+
+function createAsyncThunk(prefix, fn) {
+    
+    const thunk = (arg) => {
+        return (dispatch, getState) => {
+            dispatch({ type: `${prefix}/pending` });
+            fn(arg, {dispatch, getState})
+                .then((result) => {
+                    dispatch({ type: `${prefix}/fulfilled`, payload: result });
+                })
+                .catch(() => {
+                    dispatch({ type: `${prefix}/rejected` });
+                })
+        }
+    }
+
+    thunk.pending = `${prefix}/pending`
+
+
+
+    return thunk;
+}
+
+//   "getTotalCountThunkToolkit/pending"
+//   "getTotalCountThunkToolkit/rejected"
+//   "getTotalCountThunkToolkit/fulfilled"
+
+// https://redux-toolkit.js.org/api/createAsyncThunk
 
 //Middlewares
 const myMiddleware = storeApi => next => action => {
