@@ -3,7 +3,7 @@ import axios from 'axios'
 const instance = axios.create({
     baseURL: 'https://pokeapi.co/api/v2/pokemon/'
 })
-function getPokemons(page, pokemonsOnPage){
+export function getPokemons(page, pokemonsOnPage){
     return instance.get(`?offset=${(page - 1) * pokemonsOnPage}&limit=${pokemonsOnPage}`)
         .then(response => {
             return response.data
@@ -14,7 +14,6 @@ function getPokemons(page, pokemonsOnPage){
             })
         })
 }
-export default getPokemons;
 
 export function getTotalCount(){
     return instance.get()

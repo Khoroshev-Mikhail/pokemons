@@ -1,5 +1,5 @@
 // import thunk from 'redux-thunk'
-import getPokemons, { getTotalCount } from "../Pokemon/pokemonAPI"
+import { getPokemons, getTotalCount } from "../Pokemon/pokemonAPI"
 const { legacy_createStore, applyMiddleware } = require("redux")
 
 
