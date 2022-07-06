@@ -54,20 +54,22 @@ function mineCreateStore(reducer, enhancer){
     return store
 }
 
-//const store = mineCreateStore(reducers, applyMiddleware(logger, logger2, logger3))
 
 function compose(fns) {
     return x => fns.reduceRight((acc, fn) => fn(acc), x);
 }
 
-const applyMiddleware = (...middlewares) => createStore => (reducer, initialState) => {
-    const store = createStore(reducer, initialState);
+const applyMiddleware = (...middlewares) => createStore => (reducer) => {
+    const store = createStore(reducer);
     const { dispatch, getState } = store;
     const storeApi = { dispatch, getState };
-    // const [m1, m2, m3] = middlewares;
 
+    const enchancedDispatch = (action) => {
+        //return middlewares.reduceRight((acc, next) => next(store)(acc), dispatch)(action)
+        return middlewares.map(el => el(store))
+    }
 
-    const enchancedDispatch2 = (action) => {
+    /*const enchancedDispatch2 = (action) => {
         return middlewares.reduceRight((currentFn, middleware) => middleware(storeApi)(currentFn), dispatch)(action);
     };
 
@@ -85,14 +87,8 @@ const applyMiddleware = (...middlewares) => createStore => (reducer, initialStat
             currentFn = middleware(storeApi)(currentFn)
         }
         return currentFn(action)
-
-        // const f3 = m3(storeApi)(dispatch)
-        // const f2 = m2(storeApi)(f3)
-        // const f1 = m1(storeApi)(f2)
-
-        // return f1(action);
     };
-
+    */
     return {
         ...store,
         dispatch: enchancedDispatch,
@@ -106,14 +102,14 @@ const logger = (store) => next => action =>{
     //console.log('logger(1) Action:', action)
     //console.log('logger(1) State:', store.getState())
     let result = next(action)
-    //console.log('logger(1) Result:', store.getState())
+    console.log('logger(1) Result:', store.getState())
     return result
 }
 const logger2 = (store) => next => action =>{
     //console.log('logger(2) Action:', action)
     //console.log('logger(2) State:', store.getState())
     let result = next(action)
-    //console.log('logger(2) Result:', store.getState())
+    console.log('logger(2) Result:', store.getState())
     return result
 }
 // function applyMiddleware(store, midlewares){
