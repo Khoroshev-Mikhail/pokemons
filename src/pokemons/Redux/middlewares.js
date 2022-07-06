@@ -30,23 +30,41 @@ const createStore = (reducer, enhancer) => {
         return enhancer(createStore)(reducer)
     }
     let state = reducer({}, {})
-    return {
+    let store = {
         getState: () => state,
         dispatch: (action) => {
             state = reducer(state, action)
         }
     }
+    return store
 }
 
-function applyMiddleware(...middlewares){
-    return function enchacer(createStore){
-        return function(reducers, initialState){
-            const store = createStore(reducers, initialState)
-            return store
-        }
+const layer1 = (storeAPI) => (next) => (action) => {
+    const result = next(action)
+    console.log('Layer1 is here')
+    return result
+} 
+const layer2 = (storeAPI) => (next) => (action) => {
+    const result = next(action)
+    console.log('Layer2 is here')
+    return result
+} 
+
+const applyMiddleware = (...middlewares) => (createStore) => (reducer, initialState) =>{
+    const store = createStore(reducer, initialState);
+    const { dispatch, getState } = store;
+    const [layer1, layer2] = middlewares
+    const enchacedDispatch = (action) => {
+        const m2 = layer2(store)(dispatch)
+        const m1 = layer1(store)(m2)
+        return m1(action)
+    }
+    return {
+        ...store,
+        dispatch: enchacedDispatch
     }
 }
 
-
-const store = createStore(reducers)
+const store = createStore(reducers, applyMiddleware(layer1, layer2))
 console.log(store.getState())
+store.dispatch({type: 'VALUE1', value: 20})
