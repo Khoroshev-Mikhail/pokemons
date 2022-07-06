@@ -33,15 +33,23 @@ export const getPokemonsForPageThunk = createAsyncThunk(
 )
 const getPokemonsForPageSlicer = createSlice({
     name: 'getPokemonsForPage',
-    initialState: [],
+    initialState: {
+        status: "pending",
+        data: [],
+    },
     reducers: {
         getPokemonsForPageAC: (state, action) => action.payload.arrFromAPI
     },
     extraReducers: {
         [getPokemonsForPageThunk.fulfilled]: (state, action) => {
-            return action.payload
+            return {
+                status: "fulfilled",
+                data: action.payload
+            }
         },
-        [getPokemonsForPageThunk.rejected]: (state, action) => action.payload
+        [getPokemonsForPageThunk.rejected]: (state, action) => {
+            state.status = "rejected";
+        },
     }
 })
 export const { getPokemonsForPageAC } = getPokemonsForPageSlicer.actions

@@ -32,7 +32,10 @@ const reducers = combineReducers({
     bara: r2
 })
 
-function mineCreateStore(reducer, middleware){
+function mineCreateStore(reducer, enhancer){
+    if (enhancer !== undefined) {
+        return enhancer(mineCreateStore)(reducer);
+    }
     let state = reducer({}, {})
     let subscribes = []
     let store = {
@@ -51,16 +54,57 @@ function mineCreateStore(reducer, middleware){
     return store
 }
 
+//const store = mineCreateStore(reducers, applyMiddleware(logger, logger2, logger3))
+
+function compose(fns) {
+    return x => fns.reduceRight((acc, fn) => fn(acc), x);
+}
+
+function applyMiddleware(...middlewares) {
+    return function enhancer(createStore) {
+        return function(reducer, initialState) {
+            const store = createStore(reducer, initialState);
+            const { dispatch, getState } = store;
+            const storeApi = { dispatch, getState };
+            // const [m1, m2, m3] = middlewares;
 
 
-const store = mineCreateStore(reducers)
-/*const unsubscribe1 = store.subscribe((value) => {
-    console.log(value)
-  })*/
-//store.dispatch({type: "SEC"})
-//console.log(store.getState())
+            const enchancedDispatch2 = (action) => {
+                return middlewares.reduceRight((currentFn, middleware) => middleware(storeApi)(currentFn), dispatch)(action);
+            };
 
-//unsubscribe1()
+            const enchancedDispatch3 = middlewares
+                .reduceRight((currentFn, middleware) => middleware(storeApi)(currentFn), dispatch);
+
+            const enchancedDispatch4 = compose(middlewares.map(m => m(storeApi)))(dispatch);
+
+            // https://github.com/reduxjs/redux/blob/master/src/applyMiddleware.ts
+
+            const enchancedDispatch = (action) => {
+                middlewares.reverse()
+                let currentFn = dispatch
+                for(const middleware of middlewares){
+                    currentFn = middleware(storeApi)(currentFn)
+                }
+                return currentFn(action)
+        
+                // const f3 = m3(storeApi)(dispatch)
+                // const f2 = m2(storeApi)(f3)
+                // const f1 = m1(storeApi)(f2)
+
+                // return f1(action);
+            };
+
+            return {
+                ...store,
+                dispatch: enchancedDispatch,
+            };
+        }
+    }
+}
+
+
+
 
 const logger = (store) => next => action =>{
     console.log('logger(1) Action:', action)
@@ -76,19 +120,27 @@ const logger2 = (store) => next => action =>{
     console.log('logger(2) Result:', store.getState())
     return result
 }
-function applyMiddleware(store, midlewares){
-    midlewares = midlewares.reverse()
-    let dispatch = store.dispatch
-    midlewares.forEach(fn => {
-        dispatch = fn(store)(dispatch)
-    })
-    return {...store, dispatch}
-}
-ara = applyMiddleware(store, [ logger, logger2 ])
-ara.dispatch({type: "SEC"})
+// function applyMiddleware(store, midlewares){
+//     midlewares = midlewares.reverse()
+//     let dispatch = store.dispatch
+//     midlewares.forEach(fn => {
+//         dispatch = fn(store)(dispatch)
+//     })
+//     return {...store, dispatch}
+// }
+// ara = applyMiddleware(store, [ logger, logger2 ])
+// ara.dispatch({type: "SEC"})
 
 
 //Как написать в формате const store = mineCreateStore(reducers, applyMiddleware(logger1, logger2)) ??????????????????????????
 
 //Точнее как передать в applyMiddleware - store первым параметром?
 
+const store = mineCreateStore(reducers, applyMiddleware(store, logger, logger2))
+/*const unsubscribe1 = store.subscribe((value) => {
+    console.log(value)
+  })*/
+store.dispatch({type: "SEC"})
+//console.log(store.getState())
+
+//unsubscribe1()

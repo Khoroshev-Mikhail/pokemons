@@ -4,7 +4,8 @@ import Body from "./Body";
 
 function mapStateToProps(state){
     return {
-        pokemonsOnPage: state.pokemonsOnPage,
+        pokemons: state.pokemonsOnPage.data,
+        status: state.pokemonsOnPage.status,
         currentPage: state.currentPage
     }
 }

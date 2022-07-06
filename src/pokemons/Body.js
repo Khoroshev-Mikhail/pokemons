@@ -18,8 +18,9 @@ export default function Body(props){
     <PokemonHeader />
     <PaginationWrapper />
 
+    {props.status}
       <div className='pokemonsgrid'>
-        {props.pokemonsOnPage.map(el => {
+        {props.pokemons.map(el => {
             return <PokemonWrapper 
               key = {el.id}
               name = {el.name} 
