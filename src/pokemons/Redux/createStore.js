@@ -91,8 +91,3 @@ ara.dispatch({type: "SEC"})
 //Как написать в формате const store = mineCreateStore(reducers, applyMiddleware(logger1, logger2)) ??????????????????????????
 //Точнее как передать в applyMiddleware - store первым параметром?
 
-//Реализовать subscribe()
-//Разобраться с миддлваре
-//Редакс тулкит
-
-//Воскресение 20:00
