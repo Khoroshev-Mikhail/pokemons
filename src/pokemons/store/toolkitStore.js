@@ -99,55 +99,16 @@ const totalCountOfPokemonsSlicer = createSlice({
 })
 export const { getTotalCountAC } = totalCountOfPokemonsSlicer.actions
 
-
-//Thunks
-/*
-export function loadPage(){
-    return function (dispatch, getState){
-        const {currentPage} = getState()
-        getPokemons(currentPage, POKEMONS_ON_PAGE)
-            .then(results => {
-                dispatch(getPokemonsForPageAC({arrFromAPI: results}))
-            })
-    }
-}
-*/
-
-/*
-function createAsyncThunk(prefix, fn) {
-    
-    const thunk = (arg) => {
-        return (dispatch, getState) => {
-            dispatch({ type: `${prefix}/pending` });
-            fn(arg, {dispatch, getState})
-                .then((result) => {
-                    dispatch({ type: `${prefix}/fulfilled`, payload: result });
-                })
-                .catch(() => {
-                    dispatch({ type: `${prefix}/rejected` });
-                })
-        }
-    }
-
-    thunk.pending = `${prefix}/pending`
-
-
-
-    return thunk;
-}
-*/
-//   "getTotalCountThunkToolkit/pending"
-//   "getTotalCountThunkToolkit/rejected"
-//   "getTotalCountThunkToolkit/fulfilled"
-
 // https://redux-toolkit.js.org/api/createAsyncThunk
 
 //Middlewares
-const myMiddleware = storeApi => next => action => {
-    const callback = (dispatch) => dispatch(getPokemonsForPageThunk(storeApi.getState().currentPage))
+const myMiddleware = store => next => action => {
+    function callback(dispatch) {
+        return dispatch(getPokemonsForPageThunk(store.getState().currentPage))
+    }
     const result = next(action)   
     if(action.type === nextPage.type || action.type === prevPage.type){ 
-        return callback(storeApi.dispatch, storeApi.getState)
+        return callback(store.dispatch)
     }
     return result
 }
