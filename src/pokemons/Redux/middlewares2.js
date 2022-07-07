@@ -3,7 +3,6 @@ const initialState = {
     value2: 2,
 }
 const reducer1 = (state = initialState.value1, action) => {
-    console.log('im here')
     if(action.type === "VALUE1"){
         return action.value
     }
@@ -41,13 +40,24 @@ const createStore = (reducer, enchancer) => {
     return store
 }
 const layer1 = (store) => (next) => (action) => {
-    const result = next(action)
     console.log('Layer1 is here!')
+    const result = next(action)
     return result
 }
 const layer2 = (store) => (next) => (action) => {
-    const result = next(action)
     console.log('Layer2 is here!')
+    const result = next(action)
+    const callback = (dispatch) => {
+        dispatch({type: 'VALUE1', value : 99500})
+    }
+    if(action.type === 'VALUE1'){
+        return callback(store.dispatch)
+    }
+    return result
+}
+const layer3 = (store) => (next) => (action) => {
+    console.log('Layer3 is here!')
+    const result = next(action)
     return result
 }
 const applyMiddleware = (...middlewares) => (createStore) => (reducers) => {
@@ -64,6 +74,6 @@ const applyMiddleware = (...middlewares) => (createStore) => (reducers) => {
     }
 }
 
-const store = createStore(reducers, applyMiddleware(layer1, layer2))
+const store = createStore(reducers, applyMiddleware(layer1, layer2, layer3))
 store.dispatch({type: "VALUE1", value: 100})
 console.log(store.getState())
