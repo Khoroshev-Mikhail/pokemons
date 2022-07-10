@@ -56,7 +56,7 @@ export const { getPokemonsForPageAC } = getPokemonsForPageSlicer.actions
 
 const catchOrReleaseSlicer = createSlice({
     name: 'catchOrRelease',
-    initialState: [],
+    initialState: ["1", "2"],   
     reducers: {
         catchOrReleaseAC: (state, action) => {
             if(state.includes(action.payload.id)){

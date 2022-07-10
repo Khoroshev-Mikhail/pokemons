@@ -29,11 +29,19 @@ const createStore = (reducer, enhancer) => {
     if(enhancer !== undefined){
         return enhancer(createStore)(reducer)
     }
+    let subscribes = []
     let state = reducer({}, {})
     let store = {
         getState: () => state,
         dispatch: (action) => {
             state = reducer(state, action)
+            subscribes.forEach(fn => fn(state))
+        },
+        subscribe: (fn) => {
+            subscribes = [...subscribes, fn]
+            return () => {
+                subscribes.filter(el => el !== fn)
+            }
         }
     }
     return store

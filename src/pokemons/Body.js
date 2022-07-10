@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
+import { useDispatch } from './Redux/Connect';
 import './body.css'
 import PaginationWrapper from './Pokemon/Pagination/PaginationWrapper';
-import PokemonHeader from './Pokemon/Pokemon_header/PokemonHeader';
 import PokemonWrapper from './Pokemon/PokemonsPage/PokemonWrapper';
 import { getPokemonsForPageThunk } from './store/toolkitStore';
 
@@ -15,7 +15,6 @@ export default function Body(props){
   return (
     <div className='main'>
 
-    <PokemonHeader />
     <PaginationWrapper />
 
     {props.status}
