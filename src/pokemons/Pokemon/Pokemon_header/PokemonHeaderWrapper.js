@@ -15,5 +15,7 @@ const mapDispatchToProps = {
   setTotalCount: totalCountOfPokemons_AC
 }
 
+//ДАННАЯ КОМПОНЕНТА НЕ ИСПОЛЬЗУЕТСЯ!!!
+//В Body.js подключается PokemonHeader (а это WRAPPER) и используются хуки вместо connect
 const PokemonHeaderWrapper = myConnect(mapStateToProps, mapDispatchToProps)(PokemonHeader)
 export default PokemonHeaderWrapper

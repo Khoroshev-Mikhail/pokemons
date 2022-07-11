@@ -10,28 +10,24 @@ export function Provider({ store, children }) {
     </ReduxContext.Provider>
   );
 }
-/*
-function mapDispatchToProps(dispatch){
-    return {
-        getPokemonsForPage: dispatch(getPokemonsForPage_AC)
-    }
-}
-
-const mapDispatchToProps = {
-    getPokemonsForPage: getPokemonsForPage_AC
-}
-*/
 
 export const useDispatch = () => {
   const store = useContext(ReduxContext)
 
   return store.dispatch;
 }
-//const totalCountOfPokemons = useSelector(state => state.totalCountOfPokemons);
+//const totalCountOfPokemons = useSelector((state) => {
+//  return state.totalCountOfPokemons
+//});
 export const useSelector = (fn) => {
     //Подписаться на изменения стора ДЗ
     const store = useContext(ReduxContext)
-    const state = store.getState()
+    const [state, setState] = useState(store.getState())
+    useEffect(()=>{    
+      return store.subscribe(()=>{
+        setState(store.getState())
+      })
+    }, [fn(state)])
     return fn(state)
 }
 
@@ -53,7 +49,6 @@ export const myConnect = (mstp, mdtp) => (Component) => {
       mdtp = newMdtp
     }
 
-    
     return function(props) {
       const store = useContext(ReduxContext)
       const [state, setState] = useState(mstp(store.getState(), props));
