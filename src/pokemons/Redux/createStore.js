@@ -47,7 +47,7 @@ function mineCreateStore(reducer, enhancer){
         subscribe: (fn) => {
             subscribes = [...subscribes, fn]
             return () => {
-                subscribes = subscribes.fill(fn => fn !== fn)
+                subscribes = subscribes.filter(fn => fn !== fn)
             }
         }
     }

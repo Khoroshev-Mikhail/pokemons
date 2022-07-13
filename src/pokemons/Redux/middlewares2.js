@@ -1,3 +1,5 @@
+import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+
 const initialState = {
     value1: 1,
     value2: 2,
