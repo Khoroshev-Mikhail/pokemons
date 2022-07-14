@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getTotalCountThunkToolkit } from "../../store/toolkitStore";
-
+import { useDispatch, useSelector } from "../../Redux/Connect";
 //https://habr.com/ru/post/483314/
 
 

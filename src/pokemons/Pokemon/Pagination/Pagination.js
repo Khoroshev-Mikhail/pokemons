@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
+//import { useDispatch } from "react-redux";
 import { nextPage, prevPage } from "../../store/toolkitStore";
-
+import { useDispatch } from "../../Redux/Connect";
 
 export default function Pagination(props){
     //Вариант 3

@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 import { catchOrReleaseAC } from "../../store/toolkitStore";
 import Pokemon from "./Pokemon";
-
+import { myConnect } from "../../Redux/Connect";
 function mapStateToProps(state, props){
     return {
         isCatching: state.idCatchingPokemons.includes(props.id),
@@ -15,5 +15,5 @@ function mapDispatchToProps(dispatch, props){
     }
 }
 
-const PokemonWrapper = connect(mapStateToProps, mapDispatchToProps)(Pokemon)
+const PokemonWrapper = myConnect(mapStateToProps, mapDispatchToProps)(Pokemon)
 export default PokemonWrapper

@@ -1,5 +1,4 @@
 import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { getPokemons, getTotalCount } from "../Pokemon/pokemonAPI"
 
 //Slicers
 const currentPageSlicer = createSlice({
@@ -56,7 +55,7 @@ export const { getPokemonsForPageAC } = getPokemonsForPageSlicer.actions
 
 const catchOrReleaseSlicer = createSlice({
     name: 'catchOrRelease',
-    initialState: [],
+    initialState: [],   
     reducers: {
         catchOrReleaseAC: (state, action) => {
             if(state.includes(action.payload.id)){
